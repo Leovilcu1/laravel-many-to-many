@@ -8,6 +8,7 @@ use App\Http\Requests\UpdatePostRequest;
 //Model
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Technology;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Storage;
 //helpers
@@ -33,7 +34,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view("admin.posts.create",compact("categories"));
+        $technologies = Technology::all();
+        return view("admin.posts.create",compact("categories","technologies"));
     }
 
     /**
@@ -46,6 +48,7 @@ class PostController extends Controller
     {
         $data = $request->validated(); 
 
+
         if(array_key_exists("img",$data)){
             $imgPath = Storage::put("posts",$data["img"]);
             $data["img"]= $imgPath;
@@ -56,6 +59,11 @@ class PostController extends Controller
         
 
         $newPost = Post::create($data);
+
+        foreach ($data["technologies"] as $technologyId) {
+        $newPost->technologies()->attach($technologyId);
+            
+        }
         return redirect()->route("admin.posts.show",$newPost)->with("success" , "post aggiunto con successo!");
     }
 
@@ -80,8 +88,10 @@ class PostController extends Controller
     {
 
         $categories = Category::all();
+        $technologies = Technology::all();
 
-        return view("admin.posts.edit" ,compact("post","categories"));
+
+        return view("admin.posts.edit" ,compact("post","categories","technologies"));
         
         
     } 

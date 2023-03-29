@@ -36,6 +36,18 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label d-block">Technology</label>
+                        @foreach ($technologies as $technology)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="technologies[]" id="technology-{{ $technology->id }}" value="{{ $technology->id }}">
+                                <label class="form-check-label" for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
+                            </div>
+                        @endforeach
+                </div>
+
+
                 <div> 
                     <button type="submit" class="btn btn-success">AGGIUNGI</button>
                 </div>

@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+// Model
+use App\Models\Category;
 //Helpers
 use Illuminate\Support\Str;
 
