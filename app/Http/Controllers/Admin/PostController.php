@@ -60,8 +60,11 @@ class PostController extends Controller
 
         $newPost = Post::create($data);
 
-        foreach ($data["technologies"] as $technologyId) {
-        $newPost->technologies()->attach($technologyId);
+        if(array_key_exists("technologies",$data)){
+            foreach ($data["technologies"] as $technologyId) {
+            $newPost->technologies()->attach($technologyId);
+        }
+        
             
         }
         return redirect()->route("admin.posts.show",$newPost)->with("success" , "post aggiunto con successo!");
@@ -128,6 +131,17 @@ class PostController extends Controller
 
 
         $post->update($data);
+        if(array_key_exists("technologies",$data)){
+            // foreach ($data["technologies"] as $technologyId) {
+            // $post->technologies()->attach($technologyId);
+            // }
+
+            $post->technologies()->sync($data["technologies"]);
+        }
+        // else{ $post->technologies()->sync([]); }
+        else{ $post->technologies()->detach(); }
+
+
         return redirect()->route("admin.posts.show",$post->id)->with("success" , "post aggiornato con successo!");
     }
 

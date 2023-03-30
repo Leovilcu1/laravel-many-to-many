@@ -47,6 +47,29 @@
                     <label for="img" class="form-label">immagine in evidenza</label>
                     <input type="file"  class="form-control" id="img" name="img"  placeholder="inserisci l'immagine in evidenza...">
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label d-block">
+                        Technology
+                    </label>
+                        @foreach ($technologies as $technology)
+                            <div class="form-check form-check-inline">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox" 
+                                    name="technologies[]" 
+                                    id="technology-{{ $technology->id }}" 
+                                    @if (old("technologies") && is_array(old("technologies")) && count(old("technologies")) > 0)
+                                        {{ in_array($technology->id, old("technologies")) ? "checked" : "" }}
+                                    @elseif($post->technologies->contains($technology->id))
+                                         checked
+                                    @endif
+                                    value="{{ $technology->id }}">
+                                <label class="form-check-label" for="technology-{{ $technology->id }}">{{ $technology->name }}</label>
+                            </div>
+                        @endforeach
+                </div>
+
                 <div> 
                     <button type="submit" class="btn btn-success">AGGIORNA</button>
                 </div>
